@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Hide Main Content Before JS Scene is Rendered -->
+    <style type="text/css">
+      .hideBeforeRender {
+        display:none;
+      }
+      body {
+        background-color: black;
+        font-family: "Oswald", serif;
+        font-style: normal;
+        font-weight: 400;
+      }
+      #loadingScreen {
+        color: white;
+        z-index: 99;
+        position: absolute;
+        width: 100%;
+        text-align: center;
+        margin-top: 25vh;
+      }
+    </style>
+
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    
+    <!-- Import Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mycorrhizae Explorer</title>
+    <script type="module" crossorigin src="/assets/index-CXkz2Wwp.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-C-3tTrI-.css">
+  </head>
+  <body>
+
+    <canvas id="bg"></canvas>
+
+    <div id="loadingScreen">
+      <p>loading ...</p>
+    </div>
+
+    <main class="hideBeforeRender">
+
+      <header>
+        <h1>Imagine a hidden mycelial world</h1>
+        <p>beneath our feet, where plants and fungi work 
+          together in an incredible partnership. 
+          Mycorrhizae, the microscopic fungal threads that connect with plant roots, 
+          measure in the trillions just beneath the surface. </p>
+        <p>
+          They help plants access vital nutrients by as much 
+          as 100 times more efficiently compared to the plant’s roots alone.
+        </p>
+
+        <div class="symbol">
+          &#8595;
+        </div>
+
+      </header>
+
+      <section>
+        <p>
+          Mycelium act as protectors, standing between plants 
+          and harmful diseases. They strengthen the ground itself, holding 
+          everything together in a living armature, improving water retention and 
+          helping to prevent up to 80% of soil erosion.</p>
+      </section>
+
+      <section>
+        <p>
+          Through their underground network, these fungi connect plants 
+          in a vast, intricate web—one that spans entire natural biomes. 
+          This network isn’t just for nutrient sharing; it’s a living safety net. 
+          Like a global support system of solidarity and care.</p>
+      </section>
+
+      <section class="rightJustified">
+        <p>
+          And as the climate shifts, mycorrhizae could help slow down global 
+          warming by sequestering carbon in the soil. They may hold up to 30% 
+          of the planet’s carbon storage, helping mitigate the very changes 
+          that threaten our world.
+        </p>
+      </section>
+
+      <section class="rightJustified">
+        <p>
+          As mycorrhizae are essential to life on Earth,
+          they remind us that even the smallest unseen 
+          connections hold the power to shape the future of our planet. 
+        </p>
+      </section>
+
+      <section class="rightJustified finalSection">
+        <p>
+          To learn more about mycorrhizae and microscopic fungi, visit the 
+          <a href="https://www.spun.earth/" target="_blank">Society for the Protection of Underground Networks</a>
+        </p>
+
+        <p>
+          This website was built as a demo of procedurally generated 3D environments by 
+          <a href="https://lautumngnadinger.com/" target="_blank">L Autumn Gnadinger</a> using Three.js 
+        </p>
+
+        <p>
+          On every page refresh, you will see a unique configuration of these glowing
+          networks, inspired by the uncountable arrangements of fungal connections here on Earth.
+        </p>
+      </section>
+
+    </main>
+  </body>
+</html>
