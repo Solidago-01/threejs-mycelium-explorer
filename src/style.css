@@ -1,0 +1,89 @@
+:root {
+  --section-bg: rgba(8, 8, 15, 0.934);
+  --spacing: 20rem;
+}
+
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.hideAfterRender {
+  display: none;
+}
+
+main {
+  width: 100vw;
+  color: white;
+  z-index: 99;
+  position: absolute;
+  width: 100%;
+  margin: 10rem auto;
+  margin-top: 14rem;
+  
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+}
+
+h1 {
+  font-weight: 700;
+  font-size: 3rem;
+  margin-bottom: 0;
+}
+
+p {
+  font-size: 1.4rem;
+  margin-top: .5rem;
+}
+
+a {
+  color: lightblue;
+}
+
+header {
+  background: var(--section-bg);
+  grid-column: 2 / span 5;
+  padding: 2rem;
+  padding-top: 0;
+  line-height: 1.25;
+  margin-bottom: var(--spacing);
+  border: .1rem solid lightblue;
+  outline: .5rem solid var(--section-bg);
+}
+
+section {
+  grid-column: 2 / span 5;
+  padding: 1rem;
+  background: var(--section-bg);
+  border: .1rem solid lightblue;
+  outline: .5rem solid var(--section-bg);
+  font-size: 1.25rem;
+  line-height: 1.25;
+  margin-bottom: var(--spacing);
+}
+
+.rightJustified {
+  grid-column: 6 / 12;
+}
+
+.finalSection {
+  margin-bottom: 80rem;
+}
+
+/* Breakpoints */
+
+@media only screen and (max-width: 800px) {
+  h1 {
+    font-size: 2.5rem;
+  }
+  header {
+    grid-column: 2 / span 8;
+  }
+  section {
+    grid-column: 2 / span 8;
+  }
+  .rightJustified {
+    grid-column: 4 / 12;
+  }
+}
