@@ -1,7 +1,6 @@
 import './style.css'
 import * as THREE from 'three';
-// Import Mouse Controls
-import { OrbitControls } from 'three/examples/jsm/Addons.js';
+
 // Import Post Processing Tools
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
@@ -50,18 +49,23 @@ composer.addPass( outputPass );
 const ambientLight = new THREE.AmbientLight(0xffffff, 3);
 scene.add(ambientLight);
 
-// Init Mouse Controls
-const controls = new OrbitControls(camera, renderer.domElement);
-
 
 // Image Generation
 // ////////////////
 
+const particleGeometry = new THREE.BufferGeometry();
+const particleCount = 10000;
+
+// Note: The Length of These Arrays Must Match
+const positionArray = new Float32Array(particleCount * 3);
+const positionArrayHelper  = [];
+
+// Define Recursive 3D Random Walk Function
 function generateMycelium () {
 
   // Generate Coordinates Between -100 and 100
   // randFloatSpread Controls Space Between Clusters
-  let [x,y,z] = Array(3).fill().map(() => THREE.MathUtils.randFloatSpread( 160 ));
+  let [x,y,z] = Array(3).fill().map(() => THREE.MathUtils.randFloatSpread( 240 ));
   
   // Recursively Generate Clusters of Point Objects
   function addCluster(clusterSize, x, y, z) {
@@ -69,17 +73,13 @@ function generateMycelium () {
     // Distance Between Points
     const dist = 5;
   
-    // Update Coordinates for Next Point
+    // Update Coordinates for Next Point with Random Walk
     x = THREE.MathUtils.randFloat( (x-dist), (x+dist) );
     y = THREE.MathUtils.randFloat( (y-dist), (y+dist) );
     z = THREE.MathUtils.randFloat( (z-dist), (z+dist) );
-  
-    // Create Point Mesh
-    const geometry = new THREE.SphereGeometry(.5, 24, 24);
-    const material = new THREE.MeshStandardMaterial( { color: 0xb5fcfa });
-    const point = new THREE.Mesh( geometry, material );
-    point.position.set(x, y, z);
-    scene.add(point);
+
+    // Add New Coordinates to Point Array
+    positionArrayHelper.push(x,y,z); 
   
     // Decrement Counter
     let clusterDecrement = clusterSize - 1;
@@ -91,12 +91,49 @@ function generateMycelium () {
   }
 
   // Make Each Cluster with 600 Points // Coordinates Used/Adjusted on Next Loop
-  addCluster(600, x, y, z);
+  addCluster(1000, x, y, z);
 
 }
 
 // Calls addCluster Array(X) Times
 Array(10).fill().forEach(generateMycelium);
+
+// Loop Through Position Array and Remap to the Helper Array 
+for(let i = 0; i < particleCount * 3; i++) {
+  positionArray[i] = positionArrayHelper[i];
+}
+
+// Applies Coordinates to Geometry Attribute
+particleGeometry.setAttribute('position', new THREE.BufferAttribute(positionArray, 3));
+
+// Function to Remap Square Particles as Circles
+function createCircleTexture(color, size) {
+  var matCanvas = document.createElement('canvas');
+  matCanvas.width = matCanvas.height = size;
+  var matContext = matCanvas.getContext('2d');
+  // create texture object from canvas.
+  var texture = new THREE.Texture(matCanvas);
+  // Draw a circle
+  var center = size / 2;
+  matContext.beginPath();
+  matContext.arc(center, center, size/2, 0, 2 * Math.PI, false);
+  matContext.closePath();
+  matContext.fillStyle = color;
+  matContext.fill();
+  // need to set needsUpdate
+  texture.needsUpdate = true;
+  // return a texture made from the canvas
+  return texture;
+}
+
+
+// Creates Final Mesh for Particles
+const material = new THREE.PointsMaterial( { 
+  color: 0xb5fcfa,
+  size: 1,
+});
+const particlesMesh = new THREE.Points(particleGeometry, material);
+scene.add(particlesMesh);
 
 
 // Loading Screen Handler
@@ -112,14 +149,11 @@ loadingScreen.classList.add("hideAfterRender");
 // Camera Controls
 // ///////////////
 
-// Note This Values Loads in Above 0 // 8 on FireFox and Chrome
-// console.log(document.body.getBoundingClientRect().top);
-
 // Setup Move Camera on Scroll
 function moveCamera() {
   
-  // Define Scroll Distance from Top of Screen // Includes Offset of 8 for Result of 0
-  const scroll = (document.body.getBoundingClientRect().top) - 8;
+  // Define Scroll Distance from Top of Screen // For Debug: May Need to Offset to Correct Behavior
+  const scroll = (document.body.getBoundingClientRect().top);
   // Move Camera on Scroll
   camera.position.z = (scroll * -0.1);
 
@@ -136,6 +170,7 @@ moveCamera();
 function animate() {
   requestAnimationFrame( animate );
 
+  // Gently Move Particles Each Frame
   camera.position.x += -.003;
   camera.position.y += -.003;
 
