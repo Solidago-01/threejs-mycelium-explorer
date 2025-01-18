@@ -3,6 +3,10 @@
   --spacing: 20rem;
 }
 
+body { 
+  height: 10000px;
+}
+
 canvas {
   position: fixed;
   top: 0;
@@ -24,6 +28,7 @@ main {
   
   display: grid;
   grid-template-columns: repeat(12, 1fr);
+
 }
 
 h1 {
